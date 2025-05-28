@@ -3,7 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 include("conexion.php");
 
-$sql = "SELECT id, nombre, precio, img FROM productos";
+$sql = "SELECT id, nombre, precio, img, tipo FROM productos";
 $result = mysqli_query($connex, $sql);
 
 $productos = [];

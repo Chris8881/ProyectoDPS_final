@@ -5,7 +5,7 @@ include("conexion.php");
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-$sql = "SELECT id, nombre, descripcion, precio, img FROM productos WHERE id = $id";
+$sql = "SELECT id, nombre, descripcion, precio, img, tipo FROM productos WHERE id = $id";
 $result = mysqli_query($connex, $sql);
 
 if ($result && mysqli_num_rows($result) > 0) {
