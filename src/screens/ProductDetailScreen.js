@@ -9,7 +9,7 @@ export default function ProductDetailScreen() {
   const [cantidad, setCantidad] = useState(1);
 
   useEffect(() => {
-    fetch(`http://192.168.1.34/ProyectoDPS_final/src/api/get_producto.php?id=${id}`)
+    fetch(`http://192.168.0.8/ProyectoDPS_final/src/api/get_producto.php?id=${id}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) setProducto(data.data);

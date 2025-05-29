@@ -8,7 +8,7 @@ export default function CartScreen({ navigation }) {
 
   const fetchCart = async () => {
     try {
-      const response = await fetch('http://192.168.1.34/ProyectoDPS_final/src/api/get_cart.php', {
+      const response = await fetch('http://192.168.0.8/ProyectoDPS_final/src/api/get_cart.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),
@@ -33,7 +33,7 @@ export default function CartScreen({ navigation }) {
 
   const handleClearCart = async () => {
     try {
-      const response = await fetch('http://192.168.1.34/ProyectoDPS_final/src/api/clear_cart.php', {
+      const response = await fetch('http://192.168.0.8/ProyectoDPS_final/src/api/clear_cart.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),

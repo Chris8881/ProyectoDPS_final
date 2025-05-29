@@ -7,7 +7,7 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://192.168.1.34/ProyectoDPS_final/src/api/login.php', {
+      const response = await fetch('http://192.168.0.8/ProyectoDPS_final/src/api/login.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, pass }),

@@ -8,7 +8,7 @@ export default function HomeScreen({ navigation }) {
   const [tipos, setTipos] = useState([]);
 
   useEffect(() => {
-    fetch('http://192.168.1.34/ProyectoDPS_final/src/api/get_productos.php')
+    fetch('http://192.168.0.8/ProyectoDPS_final/src/api/get_productos.php')
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -25,7 +25,7 @@ export default function HomeScreen({ navigation }) {
 
   const handleAddToCart = async (producto) => {
     try {
-      const response = await fetch('http://192.168.1.34/ProyectoDPS_final/src/api/add_to_cart.php', {
+      const response = await fetch('http://192.168.0.8/ProyectoDPS_final/src/api/add_to_cart.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

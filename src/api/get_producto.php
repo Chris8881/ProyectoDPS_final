@@ -10,7 +10,7 @@ $result = mysqli_query($connex, $sql);
 
 if ($result && mysqli_num_rows($result) > 0) {
     $producto = mysqli_fetch_assoc($result);
-    $producto['img'] = "http://192.168.1.34/img/" . $producto['img'];
+    $producto['img'] = "http://192.168.0.8/ProyectoDPS_final/img/" . $producto['img'];
 
     echo json_encode([
         "success" => true,
