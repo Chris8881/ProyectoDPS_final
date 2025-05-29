@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Button, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, FlatList, Button, StyleSheet, Image, Alert, Platform, StatusBar } from 'react-native';
+
 
 export default function CartScreen({ navigation }) {
   const [cart, setCart] = useState([]);
@@ -78,7 +79,7 @@ export default function CartScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
-  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 16, textAlign: 'center' },
+  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 16, textAlign: 'center', marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 40 },
   item: { flexDirection: 'row', alignItems: 'center', padding: 12, borderBottomWidth: 1, borderBottomColor: '#ccc' },
   image: { width: 60, height: 60, marginRight: 12, borderRadius: 8 },
   title: { fontSize: 18, fontWeight: 'bold' },

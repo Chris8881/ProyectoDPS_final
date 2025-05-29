@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
   const [productos, setProductos] = useState([]);
@@ -108,13 +109,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#007bff',
     padding: 18,
     borderRadius: 14,
-    marginTop: 16,
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 40,
     marginBottom: 10,
     justifyContent: 'space-between',
   },
   headerText: { color: '#fff', fontSize: 28, fontWeight: 'bold' },
   cartIcon: { backgroundColor: '#0056b3', padding: 8, borderRadius: 20 },
-  filterMenu: { flexDirection: 'row', marginBottom: 10 },
+  filterMenu: { flexDirection: 'row', marginBottom: 10, height: 44, paddingVertical: 1, paddingHorizontal: 10 },
   filterButton: {
     backgroundColor: '#e0e7ff',
     paddingVertical: 8,
