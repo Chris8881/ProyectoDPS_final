@@ -8,7 +8,7 @@ export default function CartScreen({ navigation }) {
 
   const fetchCart = async () => {
     try {
-      const response = await fetch('http://192.168.0.8/ProyectoDPS_final/src/api/get_cart.php', {
+      const response = await fetch('http://192.168.1.34/ProyectoDPS_final/src/api/get_cart.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),
@@ -33,7 +33,7 @@ export default function CartScreen({ navigation }) {
 
   const handleClearCart = async () => {
     try {
-      const response = await fetch('http://192.168.0.8/ProyectoDPS_final/src/api/clear_cart.php', {
+      const response = await fetch('http://192.168.1.34/ProyectoDPS_final/src/api/clear_cart.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),
@@ -63,18 +63,25 @@ export default function CartScreen({ navigation }) {
   const total = cart.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Carrito de Compras</Text>
-      <FlatList
-        data={cart}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={renderItem}
-        ListEmptyComponent={<Text>El carrito está vacío.</Text>}
-      />
-      <Text style={styles.total}>Total: ${total.toFixed(2)}</Text>
-      <Button title="Vaciar Carrito" onPress={handleClearCart} />
-    </View>
-  );
+  <View style={styles.container}>
+    
+    <FlatList
+      data={cart}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={renderItem}
+      ListEmptyComponent={<Text>El carrito está vacío.</Text>}
+    />
+    <Text style={styles.total}>Total: ${total.toFixed(2)}</Text>
+    <Button title="Vaciar Carrito" onPress={handleClearCart} />
+    <View style={{ height: 12 }} />
+    <Button
+      title="Finalizar compra"
+      onPress={() => navigation.navigate('Checkout', { total })}
+      disabled={cart.length === 0}
+      color="#007bff"
+    />
+  </View>
+);
 }
 
 const styles = StyleSheet.create({

@@ -24,7 +24,7 @@ $result = mysqli_query($connex, $sql);
 $cart = [];
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-        $row['img'] = "http://192.168.0.8/ProyectoDPS_final/img/" . $row['img'];
+        $row['img'] = "http://192.168.1.34/ProyectoDPS_final/img/" . $row['img'];
         $cart[] = $row;
     }
     echo json_encode([

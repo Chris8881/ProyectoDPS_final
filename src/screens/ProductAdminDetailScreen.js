@@ -10,7 +10,7 @@ export default function ProductAdminDetailScreen() {
   const [producto, setProducto] = useState(null);
 
   useEffect(() => {
-    fetch(`http://192.168.0.8/ProyectoDPS_final/api/get_producto.php?id=${id}`)
+    fetch(`http://192.168.1.34/ProyectoDPS_final/api/get_producto.php?id=${id}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) setProducto(data.data);
