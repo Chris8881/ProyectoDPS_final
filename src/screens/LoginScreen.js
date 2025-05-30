@@ -14,9 +14,11 @@ export default function LoginScreen({ navigation }) {
       });
       const data = await response.json();
       if (data.success) {
-        // Aquí puedes guardar el usuario en contexto o AsyncStorage
         Alert.alert('Bienvenido', 'Login exitoso');
-        navigation.replace('Home'); // O navega a la pantalla principal
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        });
       } else {
         Alert.alert('Error', data.message || 'Credenciales incorrectas');
       }

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Alert, ScrollView, Modal, Button } from 'react-native';
-import { StatusBar, Platform } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import {View,Text,FlatList,Image,StyleSheet,TouchableOpacity,Alert, ScrollView,Modal,Button, BackHandler,ToastAndroid,Platform,Animated} from 'react-native';
 
 export default function HomeScreen({ navigation }) {
   const [productos, setProductos] = useState([]);
@@ -9,7 +8,10 @@ export default function HomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cantidad, setCantidad] = useState(1);
-  const [menuVisible, setMenuVisible] = useState(false); // Nuevo estado para el menú
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  
+  const backPressCount = useRef(0);
 
   useEffect(() => {
     fetch('http://192.168.1.34/ProyectoDPS_final/src/api/get_productos.php')
@@ -23,6 +25,26 @@ export default function HomeScreen({ navigation }) {
       })
       .catch(err => console.error(err));
   }, []);
+
+  useEffect(() => {
+  if (Platform.OS === 'android') {
+    const onBackPress = () => {
+      if (backPressCount.current === 0) {
+        backPressCount.current = 1;
+        ToastAndroid.show('Presiona atrás de nuevo para salir', ToastAndroid.SHORT);
+        setTimeout(() => {
+          backPressCount.current = 0;
+        }, 2000);
+        return true;
+      } else if (backPressCount.current === 1) {
+        BackHandler.exitApp();
+        return true;
+      }
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    return () => backHandler.remove(); // <--- Así se elimina correctamente
+  }
+}, []);
 
   const userId = 1;
 
@@ -63,7 +85,10 @@ export default function HomeScreen({ navigation }) {
 
   const handleLogout = () => {
     setMenuVisible(false);
-    navigation.replace('Login');
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    });
   };
 
   const productosFiltrados = filtro === 'Todos'
@@ -181,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#007bff',
     padding: 18,
     borderRadius: 14,
-    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 40,
+    marginTop: Platform.OS === 'android' ? 24 : 40,
     marginBottom: 10,
     justifyContent: 'space-between',
   },

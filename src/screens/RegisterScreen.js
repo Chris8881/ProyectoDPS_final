@@ -16,7 +16,10 @@ export default function RegisterScreen({ navigation }) {
       const data = await response.json();
       if (data.success) {
         Alert.alert('¡Registro exitoso!', 'Ahora puedes iniciar sesión.');
-        navigation.replace('Login');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Login' }],
+        });
       } else {
         Alert.alert('Error', data.message || 'No se pudo registrar.');
       }
