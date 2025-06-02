@@ -1,7 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {View,Text,FlatList,Image,StyleSheet,TouchableOpacity,Alert, ScrollView,Modal,Button, BackHandler,ToastAndroid,Platform,Animated} from 'react-native';
+import AdminDashboard from './AdminDashboard';
 
-export default function HomeScreen({ navigation }) {
+
+export default function HomeScreen({ route, navigation }) {
+
+
   const [productos, setProductos] = useState([]);
   const [filtro, setFiltro] = useState('Todos');
   const [tipos, setTipos] = useState([]);
@@ -9,12 +13,16 @@ export default function HomeScreen({ navigation }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cantidad, setCantidad] = useState(1);
   const [menuVisible, setMenuVisible] = useState(false);
+  const rol = route?.params?.rol || 'user';
 
-  
+  if (rol === 'admin') {
+    return <AdminDashboard navigation={navigation} />;
+  } 
+
   const backPressCount = useRef(0);
 
   useEffect(() => {
-    fetch('http://192.168.1.34/ProyectoDPS_final/src/api/get_productos.php')
+    fetch('http://192.168.1.33/ProyectoDPS_final/src/api/get_productos.php')
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -42,15 +50,15 @@ export default function HomeScreen({ navigation }) {
       }
     };
     const backHandler = BackHandler.addEventListener('hardwareBackPress', onBackPress);
-    return () => backHandler.remove(); // <--- Así se elimina correctamente
+    return () => backHandler.remove(); 
   }
 }, []);
 
-  const userId = 1;
+  const userId = route?.params?.userId || 1; // Asignar un userId por defecto si no se pasa
 
   const handleAddToCart = async (producto, cantidadAgregar = 1) => {
     try {
-      const response = await fetch('http://192.168.1.34/ProyectoDPS_final/src/api/add_to_cart.php', {
+      const response = await fetch('http://192.168.1.33/ProyectoDPS_final/src/api/add_to_cart.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

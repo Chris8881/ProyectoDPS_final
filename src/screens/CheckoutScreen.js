@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, Modal, Animated } from 'react-native';
 
 export default function CheckoutScreen({ navigation, route }) {
-  const { total } = route.params;
+  const { total, userId } = route.params; // userId viene desde CartScreen
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
   const [tarjeta, setTarjeta] = useState('');
@@ -13,7 +13,6 @@ export default function CheckoutScreen({ navigation, route }) {
 
   // Formatear número de tarjeta en bloques de 4
   const handleTarjeta = (text) => {
-    // Solo números, máximo 16 dígitos
     let cleaned = text.replace(/\D/g, '').slice(0, 16);
     let formatted = cleaned.replace(/(.{4})/g, '$1 ').trim();
     setTarjeta(formatted);
@@ -33,7 +32,7 @@ export default function CheckoutScreen({ navigation, route }) {
     setCvv(text.replace(/\D/g, '').slice(0, 4));
   };
 
-  const handlePagar = () => {
+  const handlePagar = async () => {
     if (!nombre || !direccion || !tarjeta || !cvv || !expira) {
       Alert.alert('Completa todos los campos');
       return;
@@ -50,6 +49,23 @@ export default function CheckoutScreen({ navigation, route }) {
       Alert.alert('CVV inválido');
       return;
     }
+
+    try {
+      const res = await fetch('http://192.168.1.33/ProyectoDPS_final/src/api/comprar_carrito.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        Alert.alert('Error', data.message || 'No se pudo completar la compra');
+        return;
+      }
+    } catch (e) {
+      Alert.alert('Error', 'No se pudo conectar con el servidor');
+      return;
+    }
+
     setSuccessModal(true);
     Animated.spring(scale, { toValue: 1, useNativeDriver: true }).start();
     setTimeout(() => {
@@ -86,7 +102,7 @@ export default function CheckoutScreen({ navigation, route }) {
         onChangeText={handleTarjeta}
         placeholder="1234 5678 9012 3456"
         keyboardType="numeric"
-        maxLength={19} // 16 números + 3 espacios
+        maxLength={19}
       />
       <Text style={styles.label}>Fecha de expiración</Text>
       <TextInput

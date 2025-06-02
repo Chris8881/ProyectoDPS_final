@@ -9,7 +9,7 @@ $result = mysqli_query($connex, $sql);
 $productos = [];
 
 while ($row = mysqli_fetch_assoc($result)) {
-    $row['img'] = "http://192.168.1.34/ProyectoDPS_final/img/" . $row['img']; // ruta completa
+    $row['img'] = "http://192.168.1.33/ProyectoDPS_final/img/" . $row['img']; 
     $productos[] = $row;
 }
 

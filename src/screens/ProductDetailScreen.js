@@ -9,7 +9,7 @@ export default function ProductDetailScreen() {
   const [cantidad, setCantidad] = useState(1);
 
   useEffect(() => {
-    fetch(`http://192.168.1.34/ProyectoDPS_final/src/api/get_producto.php?id=${id}`)
+    fetch(`http://192.168.1.33/ProyectoDPS_final/src/api/get_producto.php?id=${id}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) setProducto(data.data);
@@ -19,7 +19,7 @@ export default function ProductDetailScreen() {
   }, []);
 
   const handleAgregarCarrito = () => {
-    // Aquí podrías guardar en AsyncStorage o enviar a una API
+    
     Alert.alert('Agregado', `Se agregó ${cantidad} unidad(es) de ${producto.nombre}`);
   };
 
